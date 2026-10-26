@@ -31,7 +31,7 @@ standing conventions.
 | `npm run build` | Type-check, then build the static site into `dist/`. |
 | `npm run preview` | Serve the production build at <http://127.0.0.1:4173>. |
 | `npm test` | Unit tests: 1859 of them, covering 1728 fixture comparisons plus symmetry, monotonicity, round-trip, formatting and validation tests. |
-| `npm run test:browser` | Playwright tests of the real controls in Chromium and WebKit, against the production build. |
+| `npm run test:browser` | 105 Playwright tests of the real controls in Chromium and WebKit, against the production build. |
 | `npm run test:a11y` | The automated accessibility subset only. |
 | `npm run test:all` | Build, then both test suites. |
 
@@ -115,6 +115,26 @@ half the central area, because the library's own cdf loses the small offset
 from one half at df = 1; and *t* inverses are polished with a safeguarded
 Newton step on the survival function.
 
+## Branding
+
+The header, footer, palette and favicon come from the Data & Decisions
+Sampling Explorer, so the two course apps look like one set:
+
+| Asset | Source |
+| --- | --- |
+| `src/brand/dd-logo-white.svg` | Data & Decisions course logo, white variant for the navy bar |
+| `src/brand/haas-blue.svg` | Berkeley Haas wordmark, in the footer |
+| `src/brand/favicon.svg`, `favicon-32.png` | Shared course favicon (a normal curve with its centre marked) |
+
+Colours are Berkeley Blue `#003262` and California Gold `#fdb515` with the
+Sampling Explorer's neutrals. The header matches that app's styling but is not
+sticky: this page is short, and a pinned bar only costs height at 200% zoom.
+
+The files are copies committed to this repository and bundled by Vite into
+hashed `dist/assets/` names, so nothing is fetched from another origin. They
+are Berkeley and Haas marks used for a course, not open-licensed artwork;
+replace them rather than reusing them elsewhere.
+
 ## Dependencies and licensing
 
 Numerics come from [stdlib](https://stdlib.io/) — 9 direct packages, 228 with
@@ -161,8 +181,9 @@ underflow, and all invalid-input cases.
 
 Automated, in `tests/browser/accessibility.spec.ts`: axe-core against
 WCAG 2.1 A and AA on the initial page, with an answer displayed, with an error
-displayed, and in the *t* layout; no horizontal scrolling at a 320 px viewport
-or at the equivalent of 200% zoom; a single polite live region, so an answer is
+displayed, and in the *t* layout; no horizontal scrolling at a 320 px viewport,
+at the equivalent of 200% zoom, or with the text alone enlarged to 200%; a
+single polite live region, so an answer is
 announced once rather than as notation plus a hidden expansion of it; a label
 for every control; and a visible focus ring. Keyboard operation — tab order,
 arrow keys within each radio group, Enter to calculate — is exercised in

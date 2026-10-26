@@ -1,15 +1,21 @@
 :root {
-  --navy: #0d2240;
-  --navy-deep: #081628;
-  --navy-line: #1d3a63;
-  --gold: #b9922f;
-  --gold-bright: #e0b63c;
-  --page: #f6f4ef;
+  color-scheme: light;
+
+  /* Course palette, shared with the Sampling Explorer: Berkeley Blue and
+     California Gold, with its neutrals. */
+  --navy: #003262;
+  --navy-deep: #00244a;
+  --gold: #fdb515;
+  --page: #f5f5f2;
   --card: #ffffff;
-  --ink: #16202e;
-  --ink-soft: #4a5666;
+  --line: #d6dae0;
+  --soft: #eef1f5;
+  --ink: #1b2430;
+  --ink-soft: #56606e;
+  /* Dark enough on white to clear the 3:1 minimum for a control boundary. */
+  --control-line: #6f7a89;
   --error: #96221b;
-  --focus: #0b63c5;
+  --focus: #1a5fb4;
   --radius: 10px;
 }
 
@@ -29,7 +35,10 @@ html {
 
 body {
   margin: 0;
-  padding: 0 16px 48px;
+  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   background: var(--page);
   color: var(--ink);
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial,
@@ -38,32 +47,56 @@ body {
   line-height: 1.5;
 }
 
-.masthead,
-main,
-footer {
-  max-width: 54rem;
-  margin: 0 auto;
-}
-
-.masthead {
-  padding: 28px 0 20px;
+/* Header, matching the Sampling Explorer: navy bar, gold rule, course logo
+   beside the page title. Not sticky -- this page is short, and a bar pinned
+   to the top only costs height at 200% zoom. */
+.site-header {
+  background: var(--navy);
+  color: #fff;
+  padding: 0.3rem 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem 1.25rem;
   border-bottom: 3px solid var(--gold);
 }
 
-.masthead .course {
-  margin: 0;
-  font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--navy);
+.site-header :focus-visible {
+  outline-color: var(--gold);
 }
 
-.masthead h1 {
-  margin: 4px 0 0;
-  font-size: 1.75rem;
+.brand {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* Course logo, white variant for the navy bar; 1536 x 684 artwork. */
+.dd-logo {
+  display: block;
+  height: 46px;
+  width: auto;
+  flex: none;
+}
+
+.brand-text {
+  min-width: 0;
+  border-left: 1px solid rgba(255, 255, 255, 0.35);
+  padding-left: 0.75rem;
+}
+
+.site-header h1 {
+  margin: 0;
+  font-size: 1.15rem;
   line-height: 1.2;
-  color: var(--navy-deep);
+}
+
+main {
+  flex: 1 0 auto;
+  width: 100%;
+  max-width: 54rem;
+  margin: 0 auto;
+  padding: 0 16px 40px;
 }
 
 form {
@@ -73,7 +106,9 @@ form {
 .grid {
   display: grid;
   gap: 20px;
-  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  /* min() keeps the track from demanding 16rem when the text is enlarged and
+     16rem is wider than the page itself. */
+  grid-template-columns: repeat(auto-fit, minmax(min(16rem, 100%), 1fr));
   align-items: start;
 }
 
@@ -85,9 +120,13 @@ form {
 
 .group {
   margin: 0;
+  /* A fieldset's user-agent min-inline-size is min-content, which otherwise
+     overrides a grid item's automatic minimum and pushes the page wider than
+     the viewport once the text is enlarged. */
+  min-width: 0;
   padding: 16px 18px 18px;
   background: var(--card);
-  border: 1px solid #d8d2c4;
+  border: 1px solid var(--line);
   border-radius: var(--radius);
 }
 
@@ -134,10 +173,15 @@ form {
 
 .field input {
   font: inherit;
+  /* Without this the input is sized by its default character count rather
+     than by the column it sits in. The cap keeps a short number from sitting
+     in a box the full width of the page. */
+  width: 100%;
+  max-width: 20rem;
   padding: 10px 12px;
   color: var(--ink);
   background: #fff;
-  border: 1px solid #8d8778;
+  border: 1px solid var(--control-line);
   border-radius: 8px;
   min-width: 0;
 }
@@ -183,7 +227,7 @@ button {
 }
 
 .secondary:hover {
-  background: #e7e3d9;
+  background: var(--soft);
 }
 
 :focus-visible {
@@ -196,7 +240,7 @@ button {
   padding: 18px 20px 20px;
   background: var(--navy);
   border-radius: var(--radius);
-  border-left: 6px solid var(--gold-bright);
+  border-left: 6px solid var(--gold);
 }
 
 .result h2 {
@@ -205,7 +249,7 @@ button {
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--gold-bright);
+  color: var(--gold);
 }
 
 #result {
@@ -232,23 +276,81 @@ button {
   color: #ffd9d4;
 }
 
-.note,
-footer p {
+.note {
   max-width: 48rem;
   margin: 20px auto 0;
   font-size: 0.875rem;
   color: var(--ink-soft);
 }
 
-footer {
-  margin-top: 28px;
-  padding-top: 16px;
-  border-top: 1px solid #d8d2c4;
+/* Footer in the normal page flow, with the Berkeley Haas wordmark the course
+   apps share. */
+.site-footer {
+  flex: none;
+  background: #fff;
+  border-top: 1px solid var(--line);
+  padding: 1.5rem 16px 1.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.site-footer p {
+  max-width: 48rem;
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--ink-soft);
+  text-align: center;
+}
+
+/* Berkeley Haas wordmark; 233.99 x 48.29 artwork. */
+.haas-logo {
+  display: block;
+  height: 28px;
+  width: auto;
+}
+
+/* Keeps a short pair like "-c to c" from breaking so the final c sits alone
+   on its own line. */
+.nowrap {
+  white-space: nowrap;
+}
+
+@media (max-width: 55rem) {
+  .site-header {
+    padding: 0.35rem 0.75rem;
+  }
+  .brand {
+    gap: 0.5rem;
+  }
+  .dd-logo {
+    height: 34px;
+  }
+  .brand-text {
+    padding-left: 0.5rem;
+  }
+  .site-header h1 {
+    font-size: 1rem;
+  }
 }
 
 @media (max-width: 30rem) {
-  .masthead h1 {
-    font-size: 1.45rem;
+  .site-header {
+    padding: 0.3rem 0.6rem;
+  }
+  .dd-logo {
+    height: 30px;
+  }
+  .brand {
+    gap: 0.4rem;
+  }
+  .brand-text {
+    padding-left: 0.4rem;
+  }
+  .site-header h1 {
+    font-size: 0.95rem;
+    line-height: 1.15;
   }
   .actions button {
     flex: 1 1 100%;

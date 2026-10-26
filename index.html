@@ -9,13 +9,24 @@
       name="description"
       content="Standard normal and Student's t probabilities and cutoffs for Data &amp; Decisions."
     />
-    <link rel="icon" href="data:," />
+    <link rel="icon" href="/src/brand/favicon-32.png" type="image/png" sizes="32x32" />
+    <link rel="icon" href="/src/brand/favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="/src/styles.css" />
   </head>
   <body>
-    <header class="masthead">
-      <p class="course">Data &amp; Decisions</p>
-      <h1>Distribution Calculator</h1>
+    <header class="site-header">
+      <div class="brand">
+        <img
+          class="dd-logo"
+          src="/src/brand/dd-logo-white.svg"
+          alt="Data &amp; Decisions"
+          width="94"
+          height="42"
+        />
+        <div class="brand-text">
+          <h1>Distribution Calculator</h1>
+        </div>
+      </div>
     </header>
 
     <main>
@@ -76,11 +87,11 @@
               </label>
               <label class="radio">
                 <input type="radio" name="region" value="central" />
-                <span>Central area between &minus;c and c</span>
+                <span>Central area, <span class="nowrap">&minus;c to c</span></span>
               </label>
               <label class="radio">
                 <input type="radio" name="region" value="twoTails" />
-                <span>Two tails, outside &minus;c and c</span>
+                <span>Two tails, outside <span class="nowrap">&minus;c and c</span></span>
               </label>
             </div>
           </fieldset>
@@ -141,12 +152,19 @@
       </p>
     </main>
 
-    <footer>
+    <footer class="site-footer">
       <p>
         For Data &amp; Decisions coursework and exams. This tool returns
         numerical answers only; it does not choose a test, build a confidence
         interval, or interpret a result.
       </p>
+      <img
+        class="haas-logo"
+        src="/src/brand/haas-blue.svg"
+        alt="Berkeley Haas"
+        width="136"
+        height="28"
+      />
     </footer>
 
     <script type="module" src="/src/main.ts"></script>

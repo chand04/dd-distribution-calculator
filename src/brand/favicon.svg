@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <style>
+    .curve { stroke: #003262; }
+    @media (prefers-color-scheme: dark) { .curve { stroke: #9ab8de; } }
+  </style>
+  <path d="M16 26.5V11" fill="none" stroke="#fdb515" stroke-width="3.2" stroke-linecap="round"/>
+  <path class="curve" d="M2.5 26.5C9 26.5 10.5 5.5 16 5.5S23 26.5 29.5 26.5" fill="none" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

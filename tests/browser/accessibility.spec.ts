@@ -72,6 +72,32 @@ test('200% zoom: usable with no horizontal scrolling', async ({ page }) => {
   expect((await scan(page)).violations).toEqual([]);
 });
 
+test('enlarged text: no horizontal scrolling at 200% text size', async ({ page }) => {
+  // Text-only resize, which is a different failure mode from page zoom: the
+  // viewport keeps its width while every length in rem or em grows.
+  await page.setViewportSize({ width: 320, height: 800 });
+  await page.goto('/');
+  await page.addStyleTag({ content: 'html { font-size: 200%; }' });
+  const overflow = await page.evaluate(
+    () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
+  );
+  expect(overflow).toBeLessThanOrEqual(1);
+  await page.getByRole('button', { name: 'Calculate' }).click();
+  await expect(page.locator('#result')).toContainText('0.975002');
+});
+
+test('the cutoff pair in a region label never breaks across lines', async ({ page }) => {
+  for (const width of [320, 360, 640, 1000]) {
+    await page.setViewportSize({ width, height: 800 });
+    await page.goto('/');
+    const pairs = page.locator('.nowrap');
+    await expect(pairs).toHaveCount(2);
+    const lines = await pairs.evaluateAll((els) =>
+      els.map((el) => el.getClientRects().length));
+    expect(lines, `at ${width}px`).toEqual([1, 1]);
+  }
+});
+
 test('the result is a polite live region, announced once', async ({ page }) => {
   await page.goto('/');
   const output = page.locator('#result');

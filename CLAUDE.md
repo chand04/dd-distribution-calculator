@@ -32,5 +32,9 @@ SPEC.md is the authoritative specification. Read it before changing behaviour.
   above: source conversation URL, creation date, last-updated date, as
   `YYYY-MM-DD` in America/Los_Angeles. Preserve the creation date when
   revising.
+- **Branding is shared, not invented.** The logos, favicon and palette in
+  `src/brand/` are copies of the Data & Decisions Sampling Explorer's assets.
+  Keep the two apps matching, keep the files committed and bundled so nothing
+  is fetched from another origin, and do not draw substitutes.
 - **Before an exam.** Freeze a tested release and do not deploy during the exam
   window.

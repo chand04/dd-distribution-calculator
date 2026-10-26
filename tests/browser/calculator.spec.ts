@@ -43,7 +43,7 @@ test.describe('defaults', () => {
 test.describe('regions, normal', () => {
   const cases: Array<[string, string, string]> = [
     ['Right tail', '1.96', 'P(Z ≥ 1.96) = 0.0249979'],
-    ['Central area between −c and c', '1.96', 'P(-1.96 ≤ Z ≤ 1.96) = 0.950004'],
+    ['Central area, −c to c', '1.96', 'P(-1.96 ≤ Z ≤ 1.96) = 0.950004'],
     ['Two tails, outside −c and c', '1.96', 'P(Z ≤ -1.96 or Z ≥ 1.96) = 0.0499958'],
     ['Left tail', '0', 'P(Z ≤ 0) = 0.5'],
     ['Left tail', '-2.5', 'P(Z ≤ -2.5) = 0.00620967'],
@@ -113,7 +113,7 @@ test.describe('inverse mode, normal', () => {
   test('central area p = 0.95 names both endpoints', async ({ page }) => {
     await setup(page);
     await page.getByRole('radio', { name: 'A value, from a probability' }).check();
-    await page.getByRole('radio', { name: 'Central area between −c and c' }).check();
+    await page.getByRole('radio', { name: 'Central area, −c to c' }).check();
     await probBox(page).fill('0.95');
     await calculate(page).click();
     const text = await result(page).innerText();
@@ -157,7 +157,7 @@ test.describe('extreme values', () => {
 
   test('a probability indistinguishable from 1 is reported as a bound', async ({ page }) => {
     await setup(page);
-    await page.getByRole('radio', { name: 'Central area between \u2212c and c' }).check();
+    await page.getByRole('radio', { name: 'Central area, \u2212c to c' }).check();
     await valueBox(page).fill('45');
     await calculate(page).click();
     await expect(result(page)).toHaveText(
@@ -185,7 +185,7 @@ test.describe('extreme values', () => {
 
   test('a tiny central area keeps full relative precision', async ({ page }) => {
     await setup(page);
-    await page.getByRole('radio', { name: 'Central area between −c and c' }).check();
+    await page.getByRole('radio', { name: 'Central area, −c to c' }).check();
     await valueBox(page).fill('1e-10');
     await calculate(page).click();
     await expect(result(page)).toHaveText(
@@ -222,7 +222,7 @@ test.describe('invalid input', () => {
 
   test('rejects a negative symmetric cutoff', async ({ page }) => {
     await setup(page);
-    await page.getByRole('radio', { name: 'Central area between −c and c' }).check();
+    await page.getByRole('radio', { name: 'Central area, −c to c' }).check();
     await valueBox(page).fill('-1');
     await calculate(page).click();
     await expect(result(page)).toContainText('must be 0 or greater');
@@ -368,6 +368,34 @@ test.describe('controls', () => {
     await page.keyboard.type('2.228138852');
     await page.keyboard.press('Enter');
     await expect(result(page)).toHaveText('P(T ≥ 2.22814) = 0.025 with df = 10');
+  });
+});
+
+test.describe('branding', () => {
+  test('the course logo and Haas wordmark load from the bundle', async ({ page }) => {
+    await setup(page);
+    for (const [cls, alt] of [['.dd-logo', 'Data & Decisions'], ['.haas-logo', 'Berkeley Haas']]) {
+      const img = page.locator(cls);
+      await expect(img).toHaveAttribute('alt', alt);
+      // naturalWidth is 0 for an image that failed to load.
+      await expect
+        .poll(() => img.evaluate((el: HTMLImageElement) => el.naturalWidth))
+        .toBeGreaterThan(0);
+      const src = await img.getAttribute('src');
+      expect(src, 'assets must be served from this origin').not.toMatch(/^https?:/);
+    }
+  });
+
+  test('a favicon is declared and served', async ({ page, request }) => {
+    await setup(page);
+    const icons = page.locator('link[rel="icon"]');
+    await expect(icons).toHaveCount(2);
+    for (const href of await icons.evaluateAll((els) =>
+      els.map((el) => (el as HTMLLinkElement).getAttribute('href') ?? ''))) {
+      expect(href).not.toMatch(/^https?:/);
+      const response = await request.get(new URL(href, 'http://127.0.0.1:4173/').toString());
+      expect(response.status(), href).toBe(200);
+    }
   });
 });
 
