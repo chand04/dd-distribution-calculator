@@ -1,0 +1,40 @@
+{
+  "name": "dd-distribution-calculator",
+  "version": "1.0.0",
+  "description": "Standard normal and Student's t calculator for Data & Decisions",
+  "scripts": {
+    "test": "vitest run",
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --host 127.0.0.1 --port 4173 --strictPort",
+    "test:browser": "playwright test",
+    "test:a11y": "playwright test tests/browser/accessibility.spec.ts",
+    "test:all": "npm run build && npm run test && npm run test:browser"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chand04/dd-distribution-calculator.git"
+  },
+  "type": "module",
+  "dependencies": {
+    "@stdlib/math-base-special-betainc": "0.2.3",
+    "@stdlib/math-base-special-betaincinv": "0.2.3",
+    "@stdlib/math-base-special-erf": "0.2.6",
+    "@stdlib/math-base-special-erfc": "0.2.5",
+    "@stdlib/math-base-special-erfcinv": "0.2.2",
+    "@stdlib/math-base-special-erfinv": "0.3.1",
+    "@stdlib/stats-base-dists-t-cdf": "0.2.3",
+    "@stdlib/stats-base-dists-t-pdf": "0.2.2",
+    "@stdlib/stats-base-dists-t-quantile": "0.2.3"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.11.2",
+    "@playwright/test": "1.56.1",
+    "@types/node": "24.10.1",
+    "axe-core": "4.11.2",
+    "typescript": "5.9.3",
+    "vite": "7.1.12",
+    "vitest": "3.2.4"
+  },
+  "private": true
+}

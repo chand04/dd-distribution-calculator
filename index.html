@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <title>Distribution Calculator</title>
+    <meta
+      name="description"
+      content="Standard normal and Student's t probabilities and cutoffs for Data &amp; Decisions."
+    />
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="/src/styles.css" />
+  </head>
+  <body>
+    <header class="masthead">
+      <p class="course">Data &amp; Decisions</p>
+      <h1>Distribution Calculator</h1>
+    </header>
+
+    <main>
+      <form id="calculator" novalidate>
+        <div class="grid">
+          <fieldset class="group">
+            <legend>Distribution</legend>
+            <div class="radios">
+              <label class="radio">
+                <input type="radio" name="distribution" value="normal" checked />
+                <span>Standard normal <i>Z</i></span>
+              </label>
+              <label class="radio">
+                <input type="radio" name="distribution" value="t" />
+                <span>Student&rsquo;s <i>t</i></span>
+              </label>
+            </div>
+            <p class="field" id="df-field" hidden>
+              <label for="df">Degrees of freedom</label>
+              <input
+                type="text"
+                id="df"
+                name="df"
+                inputmode="decimal"
+                autocomplete="off"
+                spellcheck="false"
+                value="10"
+                aria-describedby="df-help"
+              />
+              <span class="help" id="df-help">Any number from 1 to 100000, including fractions.</span>
+            </p>
+          </fieldset>
+
+          <fieldset class="group">
+            <legend>What are you finding?</legend>
+            <div class="radios">
+              <label class="radio">
+                <input type="radio" name="mode" value="probability" checked />
+                <span>A probability, from a value</span>
+              </label>
+              <label class="radio">
+                <input type="radio" name="mode" value="value" />
+                <span>A value, from a probability</span>
+              </label>
+            </div>
+          </fieldset>
+
+          <fieldset class="group">
+            <legend>Region</legend>
+            <div class="radios">
+              <label class="radio">
+                <input type="radio" name="region" value="left" checked />
+                <span>Left tail</span>
+              </label>
+              <label class="radio">
+                <input type="radio" name="region" value="right" />
+                <span>Right tail</span>
+              </label>
+              <label class="radio">
+                <input type="radio" name="region" value="central" />
+                <span>Central area between &minus;c and c</span>
+              </label>
+              <label class="radio">
+                <input type="radio" name="region" value="twoTails" />
+                <span>Two tails, outside &minus;c and c</span>
+              </label>
+            </div>
+          </fieldset>
+
+          <fieldset class="group">
+            <legend>Your entry</legend>
+            <p class="field" id="value-field">
+              <label for="value" id="value-label">Value</label>
+              <input
+                type="text"
+                id="value"
+                name="value"
+                inputmode="decimal"
+                autocomplete="off"
+                spellcheck="false"
+                value="1.96"
+                aria-describedby="value-help"
+              />
+              <span class="help" id="value-help">A number such as 1.96 or -2.5.</span>
+            </p>
+            <p class="field" id="probability-field" hidden>
+              <label for="probability">Probability</label>
+              <input
+                type="text"
+                id="probability"
+                name="probability"
+                inputmode="decimal"
+                autocomplete="off"
+                spellcheck="false"
+                value="0.05"
+                aria-describedby="probability-help"
+              />
+              <span class="help" id="probability-help"
+                >A number greater than 0 and less than 1, such as 0.05.</span
+              >
+            </p>
+          </fieldset>
+        </div>
+
+        <div class="actions">
+          <button type="submit" class="primary">Calculate</button>
+          <button type="button" id="reset" class="secondary">Reset</button>
+        </div>
+      </form>
+
+      <section class="result" aria-labelledby="result-heading">
+        <h2 id="result-heading">Result</h2>
+        <output id="result" role="status" aria-live="polite"
+          >Choose your options and select Calculate.</output
+        >
+      </section>
+
+      <p class="note">
+        Answers are approximate, shown to six significant digits, with scientific
+        notation for very small or very large numbers. A probability very close
+        to 1 is written as 1 minus a small number so it is never shown as
+        exactly 1.
+      </p>
+    </main>
+
+    <footer>
+      <p>
+        For Data &amp; Decisions coursework and exams. This tool returns
+        numerical answers only; it does not choose a test, build a confidence
+        interval, or interpret a result.
+      </p>
+    </footer>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

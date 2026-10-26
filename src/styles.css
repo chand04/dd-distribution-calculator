@@ -1,0 +1,249 @@
+:root {
+  --navy: #0d2240;
+  --navy-deep: #081628;
+  --navy-line: #1d3a63;
+  --gold: #b9922f;
+  --gold-bright: #e0b63c;
+  --page: #f6f4ef;
+  --card: #ffffff;
+  --ink: #16202e;
+  --ink-soft: #4a5666;
+  --error: #96221b;
+  --focus: #0b63c5;
+  --radius: 10px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* `display: flex` on .field would otherwise beat the user-agent rule for
+   [hidden], leaving hidden inputs on screen. */
+[hidden] {
+  display: none !important;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0 16px 48px;
+  background: var(--page);
+  color: var(--ink);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial,
+    sans-serif;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.masthead,
+main,
+footer {
+  max-width: 54rem;
+  margin: 0 auto;
+}
+
+.masthead {
+  padding: 28px 0 20px;
+  border-bottom: 3px solid var(--gold);
+}
+
+.masthead .course {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--navy);
+}
+
+.masthead h1 {
+  margin: 4px 0 0;
+  font-size: 1.75rem;
+  line-height: 1.2;
+  color: var(--navy-deep);
+}
+
+form {
+  margin: 24px 0 0;
+}
+
+.grid {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+}
+
+.group {
+  margin: 0;
+  padding: 16px 18px 18px;
+  background: var(--card);
+  border: 1px solid #d8d2c4;
+  border-radius: var(--radius);
+}
+
+.group legend {
+  padding: 0 6px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--navy);
+}
+
+.radios {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.radio {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  cursor: pointer;
+}
+
+.radio input {
+  margin: 0.2em 0 0;
+  width: 1.1rem;
+  height: 1.1rem;
+  accent-color: var(--navy);
+  flex: none;
+}
+
+.field {
+  margin: 16px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field label {
+  font-weight: 600;
+}
+
+.field input {
+  font: inherit;
+  padding: 10px 12px;
+  color: var(--ink);
+  background: #fff;
+  border: 1px solid #8d8778;
+  border-radius: 8px;
+  min-width: 0;
+}
+
+.field input[aria-invalid='true'] {
+  border-color: var(--error);
+  border-width: 2px;
+}
+
+.help {
+  font-size: 0.875rem;
+  color: var(--ink-soft);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+button {
+  font: inherit;
+  font-weight: 600;
+  padding: 11px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 2px solid var(--navy);
+}
+
+.primary {
+  background: var(--navy);
+  color: #fff;
+}
+
+.primary:hover {
+  background: var(--navy-deep);
+}
+
+.secondary {
+  background: transparent;
+  color: var(--navy);
+}
+
+.secondary:hover {
+  background: #e7e3d9;
+}
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.result {
+  margin-top: 28px;
+  padding: 18px 20px 20px;
+  background: var(--navy);
+  border-radius: var(--radius);
+  border-left: 6px solid var(--gold-bright);
+}
+
+.result h2 {
+  margin: 0 0 8px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold-bright);
+}
+
+#result {
+  display: block;
+  color: #fff;
+  font-size: 1.15rem;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+#result .answer {
+  font-weight: 700;
+}
+
+#result .detail {
+  display: block;
+  margin-top: 8px;
+  font-size: 1rem;
+  color: #e8edf5;
+}
+
+#result .problem {
+  font-weight: 600;
+  color: #ffd9d4;
+}
+
+.note,
+footer p {
+  max-width: 48rem;
+  margin: 20px auto 0;
+  font-size: 0.875rem;
+  color: var(--ink-soft);
+}
+
+footer {
+  margin-top: 28px;
+  padding-top: 16px;
+  border-top: 1px solid #d8d2c4;
+}
+
+@media (max-width: 30rem) {
+  .masthead h1 {
+    font-size: 1.45rem;
+  }
+  .actions button {
+    flex: 1 1 100%;
+  }
+}
