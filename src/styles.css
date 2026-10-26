@@ -74,6 +74,13 @@ form {
   display: grid;
   gap: 20px;
   grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  align-items: start;
+}
+
+/* The entry box is the last step, so it reads better across the full width
+   than stranded in one column. */
+#entry-group {
+  grid-column: 1 / -1;
 }
 
 .group {
